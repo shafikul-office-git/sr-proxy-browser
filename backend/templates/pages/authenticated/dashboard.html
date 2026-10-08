@@ -1,0 +1,188 @@
+{% extends 'layouts/auth.html' %}
+
+{% block title %}
+Dashboard
+{% endblock %}
+
+{% block add_head %}
+<style>
+    .dashboard {
+        background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+        min-height: 100vh;
+    }
+
+    .glass {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+</style>
+{% endblock %}
+
+{% block main_container %}
+
+<div class="text-gray-100 p-4 md:p-8 dashboard">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row gap-6">
+
+        <!-- Sidebar -->
+        <aside class="glass w-full md:w-64 rounded-3xl p-6 flex flex-col gap-8">
+            <div class="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+                Shafikul Admin UI v{{version}}
+            </div>
+            <nav class="flex flex-col gap-4">
+                <a href="#" class="flex items-center gap-3 p-3 bg-white/10 rounded-xl border border-white/10">
+                    <span>📊</span> Dashboard
+                </a>
+                <!-- <a href="#" class="flex items-center gap-3 p-3 hover:bg-white/5 rounded-xl transition">
+                    <span>💰</span> Analytics
+                </a>
+                <a href="#" class="flex items-center gap-3 p-3 hover:bg-white/5 rounded-xl transition">
+                    <span>⚙️</span> Settings
+                </a> -->
+                <a href="/logout" class="flex items-center gap-3 p-3 hover:bg-white/5 rounded-xl transition">
+                    <span>🔓</span> Logout
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col gap-6">
+
+            <!-- Header -->
+            <header class="glass rounded-3xl p-6 flex justify-between items-center">
+                <div>
+                    <h1 class="text-2xl font-semibold">Welcome back, {{ request.session.user.name }}</h1>
+                    <p class="text-gray-400 text-sm">Here's what's happening today.</p>
+                </div>
+                <div
+                    class="h-12 w-12 rounded-full bg-gradient-to-tr from-pink-500 to-yellow-500 border-2 border-white/20">
+                </div>
+            </header>
+
+            <!-- 🔝 Header -->
+            <div class="flex justify-between items-center">
+                <h1 class="text-2xl md:text-3xl font-bold tracking-wide">
+                    Dashboard
+                </h1>
+                <span class="text-sm text-gray-400">
+                    v{{ version }}
+                </span>
+            </div>
+
+            <!-- 👤 Logged user -->
+            <div class="glass p-4 rounded-2xl flex justify-between items-center">
+                <div>
+                    <p class="text-sm text-gray-400">Logged in as</p>
+                    <h2 class="text-lg font-semibold">{{ request.session.user.username }}</h2>
+                </div>
+                <a href="/logout" class="text-sm px-4 py-2 rounded-xl bg-red-500/20 hover:bg-red-500/40 transition">
+                    Logout
+                </a>
+            </div>
+
+            <!-- 📊 Stats Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="glass p-5 rounded-2xl">
+                    <div class="absolute -top-4 -right-4 h-24 w-24 bg-pink-500/20 rounded-full blur-2xl"></div>
+                    <p class="text-gray-400 text-sm">Total Users</p>
+                    <h2 class="text-2xl font-bold mt-1">{{ users|length }}</h2>
+                </div>
+
+                <div class="glass p-5 rounded-2xl">
+                    <div class="absolute -top-4 -right-4 h-24 w-24 bg-blue-500/20 rounded-full blur-2xl"></div>
+                    <p class="text-gray-400 text-sm">Active</p>
+                    <h2 class="text-2xl font-bold mt-1">
+                        {{ users | selectattr("is_active") | list | length }}
+                    </h2>
+                </div>
+
+                <div class="glass p-5 rounded-2xl">
+                    <div class="absolute -top-4 -right-4 h-24 w-24 bg-purple-500/20 rounded-full blur-2xl"></div>
+                    <p class="text-gray-400 text-sm">New Users</p>
+                    <h2 class="text-2xl font-bold mt-1">+{{ users|length }}</h2>
+                </div>
+
+                <div class="glass p-5 rounded-2xl">
+                    <div class="absolute -top-4 -right-4 h-24 w-24 bg-pink-500/20 rounded-full blur-2xl"></div>
+                    <p class="text-gray-400 text-sm">Status</p>
+                    <h2 class="text-green-400 font-semibold mt-1">Online</h2>
+                </div>
+
+                <!-- Other Demo Info -->
+                <div class="glass p-6 rounded-3xl relative overflow-hidden">
+                    <div class="absolute -top-4 -right-4 h-24 w-24 bg-blue-500/20 rounded-full blur-2xl"></div>
+                    <p class="text-gray-400">Total Revenue</p>
+                    <h2 class="text-3xl font-bold mt-2">$24,500</h2>
+                    <span class="text-green-400 text-sm">↑ 12% vs last month</span>
+                </div>
+                <div class="glass p-6 rounded-3xl relative overflow-hidden">
+                    <div class="absolute -top-4 -right-4 h-24 w-24 bg-purple-500/20 rounded-full blur-2xl"></div>
+                    <p class="text-gray-400">Active Users</p>
+                    <h2 class="text-3xl font-bold mt-2">1,240</h2>
+                    <span class="text-blue-400 text-sm">Active now</span>
+                </div>
+                <div class="glass p-6 rounded-3xl relative overflow-hidden">
+                    <div class="absolute -top-4 -right-4 h-24 w-24 bg-pink-500/20 rounded-full blur-2xl"></div>
+                    <p class="text-gray-400">Conversion Rate</p>
+                    <h2 class="text-3xl font-bold mt-2">3.42%</h2>
+                    <span class="text-gray-400 text-sm">Stable</span>
+                </div>
+            </div>
+
+            <!-- 📈 Chart Section -->
+            <section class="glass rounded-3xl p-8 flex flex-col justify-center items-center border border-white/5">
+                <p class="text-gray-500 italic">User Activity</p>
+
+                <div class="mt-6 flex gap-3 items-end">
+                    {% for u in users[:6] %}
+                    <div class="w-8 rounded-t-xl bg-gradient-to-t from-blue-500 to-purple-500 opacity-70 hover:opacity-100 transition"
+                        style="height: {{ (loop.index * 20) + 40 }}px">
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <!-- 📋 User Table -->
+            <section class="glass rounded-3xl p-6 overflow-x-auto">
+                <h2 class="text-lg font-semibold mb-4">Users</h2>
+
+                <table class="w-full text-sm">
+                    <thead class="text-gray-400 border-b border-white/10">
+                        <tr>
+                            <th class="text-left py-2">#</th>
+                            <th class="text-left py-2">Name</th>
+                            <th class="text-left py-2">Email</th>
+                            <th class="text-left py-2">Status</th>
+                            <th class="text-left py-2">Joined</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for user in users %}
+                        <tr class="border-b border-white/5 hover:bg-white/5 transition">
+                            <td class="py-2">{{ user.id }}</td>
+                            <td>{{ user.name }}</td>
+                            <td class="text-gray-400">{{ user.email }}</td>
+
+                            <td>
+                                {% if user.is_active %}
+                                <span class="text-green-400">Active</span>
+                                {% else %}
+                                <span class="text-red-400">Inactive</span>
+                                {% endif %}
+                            </td>
+
+                            <td class="text-gray-500">
+                                {{ user.created_at.strftime('%Y-%m-%d') }}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+
+</div>
+{% endblock %}

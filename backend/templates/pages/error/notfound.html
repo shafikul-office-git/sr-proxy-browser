@@ -1,0 +1,411 @@
+
+{% extends 'layouts/main.html' %}
+
+{% block title %}
+Not Found
+{% endblock %}
+
+{% block add_head %}
+<style>
+  :root {
+    color-scheme: light dark;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body {
+      background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #1f0f47 100%);
+    }
+  }
+
+  @media (prefers-color-scheme: light) {
+    body {
+      background: linear-gradient(135deg, #f3f4f6 0%, #ede9fe 50%, #fdf2f8 100%);
+    }
+  }
+
+  @keyframes blob {
+
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+
+    33% {
+      transform: translate(30px, -50px) scale(1.1);
+    }
+
+    66% {
+      transform: translate(-20px, 20px) scale(0.9);
+    }
+  }
+
+  .animate-blob {
+    animation: blob 7s infinite;
+  }
+
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+
+  .animation-delay-4000 {
+    animation-delay: 4s;
+  }
+
+  @keyframes float {
+
+    0%,
+    100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+
+    50% {
+      transform: translateY(-20px) rotate(5deg);
+    }
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes pulse-glow {
+
+    0%,
+    100% {
+      text-shadow: 0 0 20px rgba(168, 85, 247, 0.5);
+      filter: drop-shadow(0 0 20px rgba(168, 85, 247, 0.3));
+    }
+
+    50% {
+      text-shadow: 0 0 40px rgba(168, 85, 247, 0.8);
+      filter: drop-shadow(0 0 40px rgba(168, 85, 247, 0.5));
+    }
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 3s ease-in-out infinite;
+  }
+
+  @keyframes slide-down {
+    from {
+      opacity: 0;
+      transform: translateY(-30px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-slide-down {
+    animation: slide-down 0.8s ease-out forwards;
+  }
+
+  .delay-1 {
+    animation-delay: 0.2s;
+  }
+
+  .delay-2 {
+    animation-delay: 0.4s;
+  }
+
+  .delay-3 {
+    animation-delay: 0.6s;
+  }
+
+  .delay-4 {
+    animation-delay: 0.8s;
+  }
+
+  @keyframes rotate-spin {
+    from {
+      transform: rotate(0deg);
+    }
+
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .animate-rotate-slow {
+    animation: rotate-spin 20s linear infinite;
+  }
+
+  /* Light mode styles */
+  @media (prefers-color-scheme: light) {
+    .glass-bg {
+      background: rgba(255, 255, 255, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      box-shadow: 0 8px 32px 0 rgba(168, 85, 247, 0.1);
+    }
+
+    .text-primary {
+      color: #111827;
+    }
+
+    .text-secondary {
+      color: #6b7280;
+    }
+
+    .text-accent {
+      color: #9333ea;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #9333ea 0%, #db2777 100%);
+      box-shadow: 0 20px 40px rgba(168, 85, 247, 0.3);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      color: #111827;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+    }
+
+    .badge-bg {
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(236, 72, 153, 0.1));
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      color: #7c3aed;
+    }
+
+    .orb-1 {
+      background: rgba(168, 85, 247, 0.4);
+    }
+
+    .orb-2 {
+      background: rgba(59, 130, 246, 0.4);
+    }
+
+    .orb-3 {
+      background: rgba(236, 72, 153, 0.4);
+    }
+  }
+
+  /* Dark mode styles */
+  @media (prefers-color-scheme: dark) {
+    .glass-bg {
+      background: rgba(15, 23, 42, 0.4);
+      border: 1px solid rgba(148, 113, 209, 0.3);
+      box-shadow: 0 8px 32px 0 rgba(168, 85, 247, 0.15);
+    }
+
+    .text-primary {
+      color: #f3f4f6;
+    }
+
+    .text-secondary {
+      color: #d1d5db;
+    }
+
+    .text-accent {
+      color: #c084fc;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #c084fc 0%, #f472b6 100%);
+      box-shadow: 0 20px 40px rgba(168, 85, 247, 0.4);
+    }
+
+    .btn-secondary {
+      background: rgba(31, 41, 55, 0.5);
+      border: 1px solid rgba(148, 113, 209, 0.3);
+      color: #f3f4f6;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(31, 41, 55, 0.7);
+      border: 1px solid rgba(168, 85, 247, 0.5);
+    }
+
+    .badge-bg {
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(236, 72, 153, 0.2));
+      border: 1px solid rgba(168, 85, 247, 0.4);
+      color: #c084fc;
+    }
+
+    .orb-1 {
+      background: rgba(168, 85, 247, 0.25);
+    }
+
+    .orb-2 {
+      background: rgba(59, 130, 246, 0.25);
+    }
+
+    .orb-3 {
+      background: rgba(236, 72, 153, 0.25);
+    }
+  }
+</style>
+{% endblock %}
+
+{% block main_container %}
+
+<div class="min-h-screen overflow-hidden transition-colors duration-500">
+
+  <!-- Animated background orbs -->
+  <div class="fixed inset-0 overflow-hidden pointer-events-none">
+    <div
+      class="absolute top-20 left-20 w-80 h-80 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob orb-1">
+    </div>
+    <div
+      class="absolute top-40 right-20 w-80 h-80 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob animation-delay-2000 orb-2">
+    </div>
+    <div
+      class="absolute bottom-20 left-1/2 w-80 h-80 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob animation-delay-4000 orb-3">
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="relative z-10 min-h-screen flex items-center justify-center px-4 py-8">
+    <div class="w-full max-w-2xl">
+
+      <!-- Decorative elements -->
+      <div class="absolute -top-40 right-0 w-96 h-96 opacity-20 animate-rotate-slow pointer-events-none">
+        <svg viewBox="0 0 400 400" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="200" cy="200" r="150" stroke="currentColor" stroke-width="2" />
+          <circle cx="200" cy="200" r="100" stroke="currentColor" stroke-width="2" />
+          <circle cx="200" cy="200" r="50" stroke="currentColor" stroke-width="2" />
+        </svg>
+      </div>
+
+      <!-- Main Card -->
+      <div class="glass-bg backdrop-blur-xl rounded-3xl border p-8 md:p-12 max-w-2xl mx-auto">
+
+        <!-- 404 Number -->
+        <div class="text-center mb-8 animate-slide-down delay-1">
+          <div class="relative inline-block">
+            <div class="text-8xl md:text-9xl font-black text-accent animate-pulse-glow" style="line-height: 1;">
+              404
+            </div>
+            <div class="absolute inset-0 blur-lg opacity-50 text-accent" style="font-size: 8rem;">
+              404
+            </div>
+          </div>
+        </div>
+
+        <!-- Floating Icon -->
+        <div class="flex justify-center mb-8 animate-slide-down delay-2">
+          <div class="relative w-24 h-24 animate-float">
+            <div class="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full blur-lg opacity-50">
+            </div>
+            <div
+              class="relative w-full h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+              <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Heading -->
+        <h1 class="text-3xl md:text-4xl font-bold text-center text-primary mb-4 animate-slide-down delay-2">
+          Oops! Page Not Found
+        </h1>
+
+        <!-- Description -->
+        <p class="text-center text-secondary text-lg md:text-xl mb-4 animate-slide-down delay-3 max-w-xl mx-auto">
+          The page you're looking for has wandered off into the digital void. Don't worry, we'll help you find your way
+          back.
+        </p>
+
+        <!-- Status Badge -->
+        <div class="flex justify-center mb-8 animate-slide-down delay-3">
+          <div class="badge-bg px-4 py-2 rounded-full text-sm font-semibold backdrop-blur">
+            🔍 Error: Resource Not Found
+          </div>
+        </div>
+
+        <!-- Content Info -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10 animate-slide-down delay-3">
+          <div class="glass-bg backdrop-blur rounded-2xl p-6 text-center border">
+            <div class="text-3xl mb-2">🗺️</div>
+            <p class="text-sm text-secondary">Lost Route</p>
+            <p class="text-accent font-semibold text-lg">/unknown</p>
+          </div>
+          <div class="glass-bg backdrop-blur rounded-2xl p-6 text-center border">
+            <div class="text-3xl mb-2">⏱️</div>
+            <p class="text-sm text-secondary">Time Wasted</p>
+            <p class="text-accent font-semibold text-lg">0.2s</p>
+          </div>
+          <div class="glass-bg backdrop-blur rounded-2xl p-6 text-center border">
+            <div class="text-3xl mb-2">🚨</div>
+            <p class="text-sm text-secondary">Error Code</p>
+            <p class="text-accent font-semibold text-lg">404</p>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-col md:flex-row gap-4 justify-center mb-8 animate-slide-down delay-4">
+          <a href="/"
+            class="btn-primary px-8 py-4 rounded-xl font-semibold text-center transition-all duration-300 transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2 flex-1 md:flex-none">
+            <span>🏠</span>
+            Go Home
+          </a>
+          <a href="/contact"
+            class="btn-secondary px-8 py-4 rounded-xl font-semibold text-center transition-all duration-300 transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2 flex-1 md:flex-none">
+            <span>📧</span>
+            Report Issue
+          </a>
+        </div>
+
+        <!-- Suggestions -->
+        <div class="mt-10 pt-8 border-t border-gray-300 dark:border-gray-600 animate-slide-down delay-4">
+          <p class="text-center text-secondary text-sm font-semibold mb-4">
+            ✨ Try These Instead:
+          </p>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <a href="/"
+              class="glass-bg border rounded-lg p-3 text-center text-sm text-secondary hover:text-accent transition-colors duration-200 hover:border-purple-500/50">
+              Homepage
+            </a>
+            <a href="/about"
+              class="glass-bg border rounded-lg p-3 text-center text-sm text-secondary hover:text-accent transition-colors duration-200 hover:border-purple-500/50">
+              About Us
+            </a>
+            <a href="/services"
+              class="glass-bg border rounded-lg p-3 text-center text-sm text-secondary hover:text-accent transition-colors duration-200 hover:border-purple-500/50">
+              Services
+            </a>
+            <a href="/contact"
+              class="glass-bg border rounded-lg p-3 text-center text-sm text-secondary hover:text-accent transition-colors duration-200 hover:border-purple-500/50">
+              Contact
+            </a>
+          </div>
+        </div>
+
+        <!-- Footer Message -->
+        <div class="text-center mt-10 pt-8 border-t border-gray-300 dark:border-gray-600 animate-slide-down delay-4">
+          <p class="text-sm text-secondary">
+            🤖 If you think this is a mistake,
+            <a href="/support" class="text-accent font-semibold hover:underline transition-colors">
+              contact our support team
+            </a>
+          </p>
+        </div>
+      </div>
+
+      <!-- Bottom Decoration -->
+      <div class="text-center mt-8 text-secondary text-sm opacity-70 animate-slide-down delay-4">
+        <p>Lost in the digital wilderness? We're here to help.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

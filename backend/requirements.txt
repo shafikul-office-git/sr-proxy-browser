@@ -1,0 +1,12 @@
+
+sqlalchemy
+fastapi
+jinja2
+uvicorn[standard]
+python-dotenv
+itsdangerous
+python-multipart
+argon2-cffi
+passlib[bcrypt]
+alembic
+requests
