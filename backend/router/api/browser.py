@@ -2,7 +2,7 @@
 import os, random
 
 from fastapi import APIRouter, Depends, Request
-from app.models import BrowserInfo, BrowserConfig
+from app.models.users import BrowserInfo, BrowserConfig
 from sqlalchemy.orm import Session
 from pydantic import BaseModel, Field, model_validator
 from utility.proxy_status import check_proxy_status

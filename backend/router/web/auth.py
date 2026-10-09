@@ -2,8 +2,8 @@
 from config.app import app, templates, os, Request,HTMLResponse,RedirectResponse
 from fastapi import Form,Depends
 from sqlalchemy.orm import Session
-from app.database import get_db
-from app.models import User
+from app.database.database import get_db
+from app.models.users import User
 from utility.helper_function import hash_password, verify_password
 import random, uuid
 
