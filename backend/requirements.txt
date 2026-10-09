@@ -10,3 +10,4 @@ argon2-cffi
 passlib[bcrypt]
 alembic
 requests
+playwright
