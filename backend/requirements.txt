@@ -9,5 +9,7 @@ python-multipart
 argon2-cffi
 passlib[bcrypt]
 alembic
-requests
+requests[socks]
 playwright
+httpx
+httpx[socks]

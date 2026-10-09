@@ -1,16 +1,15 @@
 
 import uvicorn
-from config.app import app, RedirectResponse, Request
+from config.app import app, Request
 
 # =================================
-# ADD API route 
+# Initialize API route 
 # =================================
-from router.api import users
-
-app.include_router(users.router)
+from router.api import register_routers
+register_routers(app)
 
 # =================================
-# ADD WEB route 
+# Initialize WEB route 
 # =================================
 import router.web
 
