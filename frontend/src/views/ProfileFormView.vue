@@ -20,9 +20,9 @@ const emit = defineEmits(['back', 'submit'])
 const form = reactive({
   name: props.initial?.name ?? '',
   group: 'No group',
-  startPage: '',
+  startPage: 'https://whoer.net/',
   notes: '',
-  os: 'Windows 11',
+  os: 'Windows 10',
   browser: 'Chrome 126',
   userAgent: 'auto',
   customUserAgent: '',
@@ -35,16 +35,16 @@ const form = reactive({
 })
 
 const proxy = reactive({
-  type: props.initial?.proxy?.type ?? 'HTTP',
+  protocol: props.initial?.proxy?.protocol ?? 'HTTP',
   host: props.initial?.proxy?.host ?? '',
   port: props.initial?.proxy?.port ?? '',
   username: '',
   password: '',
 })
 
-const hasProxy = computed(() => proxy.type !== 'No proxy')
+const hasProxy = computed(() => proxy.protocol !== 'No proxy')
 
-const proxyTypes = ['No proxy', 'HTTP', 'HTTPS', 'SOCKS5'].map((v) => ({ value: v, label: v }))
+const proxyTypes = ['No proxy', 'HTTP', 'HTTPS', 'SOCKS5', 'SOCKS4'].map((v) => ({ value: v, label: v }))
 const groups = ['No group', 'Shop', 'Ads', 'Testing']
 const systems = ['Windows 11', 'Windows 10', 'macOS 14', 'Ubuntu 22.04']
 const browsers = ['Chrome 126', 'Chrome 125', 'Edge 126', 'Firefox 127']
@@ -87,7 +87,7 @@ function submit(launch) {
             <div class="grid gap-4 sm:grid-cols-2">
               <BaseField label="Group"><BaseSelect v-model="form.group" :options="groups" /></BaseField>
               <BaseField label="Start page">
-                <BaseInput v-model="form.startPage" type="url" placeholder="https://example.com" />
+                <BaseInput v-model="form.startPage" type="url" placeholder="https://whoer.net/" />
               </BaseField>
             </div>
 
@@ -99,7 +99,7 @@ function submit(launch) {
 
         <BasePanel title="Proxy" icon="globe">
           <div class="flex flex-col gap-3">
-            <SegmentedControl v-model="proxy.type" :options="proxyTypes" />
+            <SegmentedControl v-model="proxy.protocol" :options="proxyTypes" />
 
             <div class="grid grid-cols-[minmax(0,1fr)_7rem] gap-3">
               <BaseInput v-model="proxy.host" :disabled="!hasProxy" placeholder="123.45.67.89" />

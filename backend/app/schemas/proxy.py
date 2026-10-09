@@ -1,9 +1,9 @@
 from pydantic import BaseModel
 
 class ProxyCheckRequest(BaseModel):
-    ip: str
+    host: str
     port: int
-    user: str | None = None
+    username: str | None = None
     password: str | None = None
     protocol: str = "http"
     timeout: int | None = 10

@@ -8,7 +8,7 @@ import ProxyCheck from '../shared/ProxyCheck.vue'
 
 const emit = defineEmits(['launch'])
 
-const proxy = reactive({ type: 'HTTP', host: '', port: '', username: '', password: '' })
+const proxy = reactive({ protocol: 'HTTP', host: '', port: '', username: '', password: '' })
 const canLaunch = computed(() => proxy.host.trim() !== '' && proxy.port !== '')
 </script>
 
@@ -16,7 +16,7 @@ const canLaunch = computed(() => proxy.host.trim() !== '' && proxy.port !== '')
   <BasePanel title="Quick launch with proxy" icon="zap">
     <div class="grid grid-cols-6 gap-3 lg:grid-cols-[8rem_minmax(0,1.5fr)_7rem_minmax(0,1fr)_minmax(0,1fr)]">
       <div class="order-1 col-span-3 lg:order-none lg:col-span-1">
-        <BaseSelect v-model="proxy.type" :options="['HTTP', 'HTTPS', 'SOCKS5']" />
+        <BaseSelect v-model="proxy.protocol" :options="['HTTP', 'HTTPS', 'SOCKS5', 'SOCKS4']" />
       </div>
       <div class="order-3 col-span-6 lg:order-none lg:col-span-1">
         <BaseInput v-model="proxy.host" placeholder="123.45.67.89" />

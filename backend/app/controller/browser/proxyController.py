@@ -15,12 +15,12 @@ class ProxyController:
                 return {"data": None, "status": False, "error": "Invalid protocol", "code": 400, }
 
             auth_part = ""
-            if data.user and data.password:
-                auth_part = (f"{quote(str(data.user), safe='')}:" f"{quote(str(data.password), safe='')}@")
-                # auth_part = f"{quote(str(data.user))}:{quote(str(data.password))}@"
+            if data.username and data.password:
+                auth_part = (f"{quote(str(data.username), safe='')}:" f"{quote(str(data.password), safe='')}@")
+                # auth_part = f"{quote(str(data.username))}:{quote(str(data.password))}@"
 
 
-            proxy_url = f"{protocol}://{auth_part}{data.ip}:{data.port}"
+            proxy_url = f"{protocol}://{auth_part}{data.host}:{data.port}"
 
             timeout = httpx.Timeout(data.timeout)
 
@@ -30,7 +30,8 @@ class ProxyController:
                 response = await client.get("https://api.ipify.org?format=json")
                 response.raise_for_status()
 
-                proxy_ip = response.json().get("ip")
+                proxy_info = response.json()
+                proxy_ip = proxy_info.get("ip")
                 response_time_ms = round((time.perf_counter() - start_time) * 1000, 2)
 
             if not proxy_ip:
@@ -43,18 +44,18 @@ class ProxyController:
                 async with httpx.AsyncClient(timeout=timeout) as client:
                     response = await client.get("https://api.ipify.org?format=json")
                     response.raise_for_status()
-                    direct_ip = response.json().get("ip")
+                    direct_ip = proxy_info.get("ip")
             except httpx.HTTPError:
                 pass
 
             return {
                 "data": {
                     "is_working": True,
-                    "proxy_ip": proxy_ip,
-                    "response_time_ms": response_time_ms,
+                    "proxy_info": proxy_info,
                     "direct_ip": direct_ip,
                     "ip_changed": (direct_ip != proxy_ip if direct_ip else None),
                 },
+                "response_time_ms": response_time_ms,
                 "status": True,
                 "message": "Proxy checked successfully",
                 "code": 200,

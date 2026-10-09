@@ -2,15 +2,16 @@
 import { ref, watch } from 'vue'
 import BaseButton from '../ui/BaseButton.vue'
 import BaseIcon from '../ui/BaseIcon.vue'
+import {apiCallStore} from '@/stores/api_call'
 
 const props = defineProps({
-  proxy: { type: Object, required: true }, // { type, host, port, username, password }
+  proxy: { type: Object, required: true }, // { protocol, host, port, username, password }
 })
 
 const state = ref('idle') // idle | loading | ok | error
 const message = ref('')
 
-watch(() => [props.proxy.host, props.proxy.port, props.proxy.type], () => {
+watch(() => [props.proxy.host, props.proxy.port, props.proxy.protocol], () => {
   state.value = 'idle'
 })
 
@@ -23,9 +24,15 @@ async function check() {
   state.value = 'loading'
   // TODO: replace with your real backend call (Electron/Tauri IPC), e.g.
   // const res = await window.api.checkProxy({ ...props.proxy })
-  await new Promise((r) => setTimeout(r, 900))
-  state.value = 'ok'
-  message.value = `Bangladesh, ${Math.floor(90 + Math.random() * 120)} ms`
+  const res = await apiCallStore.check_proxy({ ...props.proxy })
+  if (res.status) {
+    state.value = 'ok'
+    message.value = `${res.data.message}, ${res.data.response_time_ms} ms`
+  } else {
+    state.value = 'error'
+    message.value = res.data.error || 'Proxy check failed'
+  }
+  // message.value = `Bangladesh, ${Math.floor(90 + Math.random() * 120)} ms`
 }
 </script>
 
