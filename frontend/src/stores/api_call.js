@@ -12,7 +12,7 @@ export const apiCallStore = reactive({
         this.error = null
         this.data = null
         try {
-            const response = await axios.post(`${API_BASE_URL}/browsers/proxy-status`, { ...proxy_info, ...args })
+            const response = await axios.post(`${API_BASE_URL}/proxy/status`, { ...proxy_info, ...args })
             this.data = response.data
             return response
         } catch (error) {
@@ -22,4 +22,23 @@ export const apiCallStore = reactive({
             this.isLoading = false
         }
     },
+
+    // sent browser profile data
+    async create_browser_profile(profile_data) {
+        this.isLoading = true
+        this.error = null
+        this.data = null
+        try {
+            const response = await axios.post(`${API_BASE_URL}/browser/add/profile`, profile_data)
+            this.data = response.data
+            return response
+        }
+        catch (error) {
+            this.error = error.response?.data?.error || error.message || 'An error occurred'
+            throw error
+        }
+        finally {
+            this.isLoading = false
+        }
+    }
 })

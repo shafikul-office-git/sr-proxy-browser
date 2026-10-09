@@ -4,6 +4,7 @@ import AppSidebar from './components/layout/AppSidebar.vue'
 import DashboardView from './views/DashboardView.vue'
 import ProfileFormView from './views/ProfileFormView.vue'
 import { useTheme } from './composables/useTheme'
+import { apiCallStore } from '@/stores/api_call'
 
 useTheme() // applies the saved theme (default: dark) before first paint
 
@@ -67,28 +68,37 @@ function closeForm() {
   view.value = 'dashboard'
 }
 
-function onSubmit({ form, proxy, launch }) {
+async function onSubmit({ form, proxy, launch }) {
   const name = form.name.trim() || 'Untitled profile'
   const data = {
-    name,
+    form,
     initials: makeInitials(name),
     env: `${form.browser}, ${form.os.split(' ')[0]}`,
-    proxy: { type: proxy.type, host: proxy.host || '-', port: proxy.port || '-' },
+    proxy: { protocol: proxy.protocol, host: proxy.host || '-', port: proxy.port || '-', username: proxy.username || '', password: proxy.password || '' },
   }
 
+  const res = await apiCallStore.create_browser_profile(data)
+  console.log(res)
+  if (res.status) {
+    message.value = `${res.data.message}, ${res.data.response_time_ms} ms`
+  } else {
+    message.value = res.data.error || 'Proxy check failed'
+  }
+
+console.log('Submitted profile:', data, 'Launch:', launch)
   if (editing.value) {
     Object.assign(editing.value, data)
     setStatus(editing.value, launch ? 'running' : 'stopped')
   } else {
     addProfile(data, launch)
   }
-  closeForm()
+  // closeForm()
 }
 
 function onQuickLaunch(proxy) {
   const name = `Quick session ${profiles.value.length + 1}`
   addProfile(
-    { name, initials: makeInitials(name), env: 'Chrome 126, Windows', proxy: { type: proxy.type, host: proxy.host, port: proxy.port } },
+    { name, initials: makeInitials(name), env: 'Chrome 126, Windows', proxy: { protocol: proxy.protocol, host: proxy.host, port: proxy.port } },
     true,
   )
 }
