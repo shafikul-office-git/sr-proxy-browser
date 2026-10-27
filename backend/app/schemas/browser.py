@@ -58,7 +58,7 @@ class ProxyInfo(BaseModel):
 
 
 class ProfileCheckRequest(BaseModel):
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="ignore")
 
     env: str = Field(min_length=1, max_length=100)
     form: ProfileForm

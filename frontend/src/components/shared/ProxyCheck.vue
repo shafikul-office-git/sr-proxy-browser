@@ -29,7 +29,7 @@ async function check() {
     if (res.data.status === true){
       state.value = 'ok'
       message.value = `${res.data.message}, ${res.data.response_time_ms} ms`
-      toast.success(res.data.value)
+      toast.success(message.value)
     } else{
       state.value = 'error'
       message.value = res.data.error || res.data.message || 'Proxy check failed'

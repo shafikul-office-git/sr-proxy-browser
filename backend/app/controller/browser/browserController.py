@@ -16,4 +16,5 @@ class BrowserController:
             "form": data.form.model_dump(mode="json"),
             "proxy": data.proxy.model_dump(exclude={"password"}),
             "launch": data.launch,
+            "message": "Success profile created"
         }

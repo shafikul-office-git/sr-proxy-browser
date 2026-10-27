@@ -53,7 +53,7 @@ export const apiCallStore = reactive({
             return response
         }
         catch (error) {
-            this.error = error.response?.data?.error || error.response?.data?.detail || error.message || 'An error occurred'
+            const api_error = error.response?.data?.error || error.response?.data?.detail || error.message || 'An error occurred'
             return this.format_error(api_error)
         }
         finally {

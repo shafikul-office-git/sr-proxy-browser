@@ -11,6 +11,7 @@ useTheme() // applies the saved theme (default: dark) before first paint
 
 const view = ref('dashboard') // 'dashboard' | 'form'
 const editing = ref(null)
+const message = ref('')
 
 // Demo numbers: replace with real data from your backend.
 const stats = reactive({ total: 12, running: 3, working: 9 })
@@ -29,11 +30,7 @@ const profiles = ref([
   { id: 3, name: 'Test US 03', initials: 'T3', env: 'Chrome 125, Windows', proxy: { type: 'HTTP', host: '104.22.7.130', port: '3128' }, status: 'failed', gradient: gradients[2] },
 ])
 
-function makeInitials(name) {
-  const num = name.match(/(\d+)\s*$/)
-  const second = num ? num[1].slice(-1) : (name.split(' ')[1]?.[0] ?? '')
-  return (name[0] + second).toUpperCase()
-}
+
 
 function setStatus(profile, status) {
   if (profile.status === 'running') stats.running--
@@ -69,23 +66,36 @@ function closeForm() {
   view.value = 'dashboard'
 }
 
+function makeInitials(name) {
+  const num = name.match(/(\d+)\s*$/)
+  const second = num ? num[1].slice(-1) : (name.split(' ')[1]?.[0] ?? '')
+  return (name[0] + second).toUpperCase()
+}
+
 async function onSubmit({ form, proxy, launch }) {
   const name = form.name.trim() || 'Untitled profile'
   const data = {
-    form,
+    form: {
+      ...form, name: name
+    },
     initials: makeInitials(name),
-    env: `${form.browser}, ${form.os.split(' ')[0]}`,
+    env: `${form.browser}, ${form.os}`,
     proxy: { protocol: proxy.protocol, host: proxy.host || '-', port: proxy.port || '-', username: proxy.username || '', password: proxy.password || '' },
   }
 
   const res = await apiCallStore.create_browser_profile(data)
   console.log(res)
-  if (res.status) {
-    message.value = `${res.data.message}, ${res.data.response_time_ms} ms`
-    toast.success(message.value)
-  } else {
-    message.value = res.data.error || 'Proxy check failed'
-    toast.error(message.value)
+  if (res.status >= 200 && res.status < 300){
+    if (res.data.status === true){
+      message.value = `${res.data.message}, ${res.data.response_time_ms} ms`
+      toast.success(message.value)
+    } else{
+      message.value = res.data.error || res.data.message || 'Proxy check failed'
+      toast.error(message.value)
+    }
+  } else{
+    message.value = apiCallStore.error;
+    toast.error(message.value);
   }
 
 console.log('Submitted profile:', data, 'Launch:', launch)
