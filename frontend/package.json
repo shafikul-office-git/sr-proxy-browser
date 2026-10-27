@@ -16,7 +16,8 @@
     "lucide-vue-next": "^1.0.0",
     "pinia": "^4.0.3",
     "tailwindcss": "^4.3.3",
-    "vue": "rc"
+    "vue": "rc",
+    "vue3-toastify": "^0.2.9"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.8",

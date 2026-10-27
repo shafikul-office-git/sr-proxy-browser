@@ -3,6 +3,7 @@ import { ref, watch } from 'vue'
 import BaseButton from '../ui/BaseButton.vue'
 import BaseIcon from '../ui/BaseIcon.vue'
 import {apiCallStore} from '@/stores/api_call'
+import { toast } from 'vue3-toastify'
 
 const props = defineProps({
   proxy: { type: Object, required: true }, // { protocol, host, port, username, password }
@@ -22,16 +23,24 @@ async function check() {
     return
   }
   state.value = 'loading'
-  // TODO: replace with your real backend call (Electron/Tauri IPC), e.g.
-  // const res = await window.api.checkProxy({ ...props.proxy })
   const res = await apiCallStore.check_proxy({ ...props.proxy })
-  if (res.status) {
-    state.value = 'ok'
-    message.value = `${res.data.message}, ${res.data.response_time_ms} ms`
-  } else {
+
+  if (res.status >= 200 && res.status < 300){
+    if (res.data.status === true){
+      state.value = 'ok'
+      message.value = `${res.data.message}, ${res.data.response_time_ms} ms`
+      toast.success(res.data.value)
+    } else{
+      state.value = 'error'
+      message.value = res.data.error || res.data.message || 'Proxy check failed'
+      toast.error(message.value)
+    }
+  } else{
     state.value = 'error'
-    message.value = res.data.error || 'Proxy check failed'
+    message.value = apiCallStore.error;
+    toast.error(message.value);
   }
+  
   // message.value = `Bangladesh, ${Math.floor(90 + Math.random() * 120)} ms`
 }
 </script>

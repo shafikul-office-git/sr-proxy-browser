@@ -5,6 +5,7 @@ import DashboardView from './views/DashboardView.vue'
 import ProfileFormView from './views/ProfileFormView.vue'
 import { useTheme } from './composables/useTheme'
 import { apiCallStore } from '@/stores/api_call'
+import { toast } from 'vue3-toastify'
 
 useTheme() // applies the saved theme (default: dark) before first paint
 
@@ -81,8 +82,10 @@ async function onSubmit({ form, proxy, launch }) {
   console.log(res)
   if (res.status) {
     message.value = `${res.data.message}, ${res.data.response_time_ms} ms`
+    toast.success(message.value)
   } else {
     message.value = res.data.error || 'Proxy check failed'
+    toast.error(message.value)
   }
 
 console.log('Submitted profile:', data, 'Launch:', launch)
@@ -102,6 +105,8 @@ function onQuickLaunch(proxy) {
     true,
   )
 }
+
+
 </script>
 
 <template>
